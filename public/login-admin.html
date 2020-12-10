@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Login Admin</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <link rel="stylesheet" href="stylesheets/eventos.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="//code.jivosite.com/widget/p2JCwJhfbs" async></script>
+</head>
+
+<body>
+    <div id="header">
+        <div class="container">
+            <div class="alinhar">
+                <div class="title-header">
+                    <span class="highlight"><a href="index.html">
+                            <h1>Humildificadores</h1>
+                        </a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main>
+        <br><br><br><br><br>
+        <div class="main">
+            <div class="container-login-admins">
+                <br>
+                <h2>Login de Administrador</h2>
+                <div class="formulario">
+                    <form id="form_login" method="post" onsubmit="return entrar()">
+                        Email: <br><br><input type="email" id="usuario" name="login" placeholder="usuario@dominio.com" required> <br> <br> Senha: <br><br><input type="password" id="senha" name="senha" placeholder="***************" required> <br> <br>                        <br><br>
+                        <div id="login_aguarde" align="center">
+                            <img src="images/aguarde.gif" id="img_aguarde" style="display: none; height: 80px;">
+                        </div>
+                        <div id="div_erro" style="background-color: sandybrown; color: maroon; display: none;">
+                        </div>
+                        <center><button id="btn_entrar_admin">ENTRAR</button></center>
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
+<script>
+    function entrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_login));
+        fetch("/admin/admin", {
+            method: "POST",
+            body: formulario
+        }).then(resposta => {
+
+            if (resposta.ok) {
+
+                resposta.json().then(json => {
+
+                    sessionStorage.login_admin_meuapp = json.email;
+                    sessionStorage.nome_admin_meuapp = json.nome;
+
+                    window.location.href = 'select-cliente.html';
+                });
+
+            } else {
+
+                console.log('Erro de login!');
+                login_aguarde.style.display = 'none';
+                div_erro.style.display = 'block';
+                div_erro.innerHTML = 'E-mail e/ou senha incorretos';
+
+                response.text().then(texto => {
+                    console.error(texto);
+                    finalizar_aguardar(texto);
+                });
+            }
+        });
+
+        return false;
+    }
+
+    function aguardar() {
+        btn_entrar_admin.disabled = true;
+        img_aguarde.style.display = 'block';
+        div_erro.style.display = 'none';
+    }
+
+    function finalizar_aguardar(resposta) {
+        btn_entrar_admin.disabled = false;
+        img_aguarde.style.display = 'none';
+        div_erro.style.display = 'block';
+        div_erro.innerHTML = resposta;
+    }
+</script>

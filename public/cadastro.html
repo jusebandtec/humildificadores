@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Cadastro</title>
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="js/buscacep.js"></script>
+    <script type="text/javascript" src="funcoes.js"></script>
+</head>
+
+<body>
+
+    <div id="header">
+        <div class="container">
+            <div class="alinhar">
+                <div class="title-header">
+                    <span class="highlight"><a href="index.html"><h1>Humildificadores</h1></a></span>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="cadastro">
+            <div class="boxCadastro">
+                <h1 id="h1Login">CADASTRO</h1>
+
+                <form class="formCadastro" id="form_cadastro" method="post" onsubmit="return cadastrar()">
+                    <div id="containerPosition">
+                        <div id="containerCadastro" style="left: 0;">
+                            <div>
+                                <input type="text" id="nome" name="nome" placeholder="Nome" required>
+                                <input type="email" id="email" name="login" placeholder="E-mail" required>
+                                <input type="password" id="password" name="senha" placeholder="Senha" required>
+                            </div>
+                            <div>
+                                <input type="text" id="cep" onblur="pesquisacep(this.value);" name="cep" placeholder="CEP" required>
+                                <input type="text" id="rua" name="rua" placeholder="Rua">
+                                <input type="text" id="cidade" name="cidade" placeholder="Cidade">
+                                <input type="text" id="uf" id="uf" name="estado" placeholder="Estado">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul>
+                            <li onclick="changePageForm(1)" id="pageLeft"></li>
+                            <li onclick="changePageForm(2)" id="pageRight"></li>
+                        </ul>
+                    </div>
+                    <div class="btnCadastro" id="btn_seguinte" onclick="changePageForm(2)" style="display: flex;">Seguinte</div>
+                    <button class="btnCadastro" id="btn_entrar" style="display: none;" onclick="checkRequired()">Cadastrar</button>
+                    <p id="esqueciSenha"><a href="login.html">Tem conta? Clique aqui</a></p>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="footer">
+        <div class="alinharCentro">
+            <h1><a href="calculadora.html">Seja um patrocinador!</a></h1>
+            <h1>&COPY; 2020 Humildificadores. Todos os Direitos Reservados.</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+<script>
+    verificar_autenticacao(1);
+
+    function changePageForm(page) {
+        if (page == 1) {
+            containerCadastro.style.left = '0';
+            pageLeft.style.opacity = '1';
+            pageRight.style.opacity = '.3';
+            btn_entrar.style.display = 'none';
+            btn_seguinte.style.display = 'flex';
+        }
+        if (page == 2) {
+            containerCadastro.style.left = '-330px';
+            pageRight.style.opacity = '1';
+            pageLeft.style.opacity = '.3';
+            btn_entrar.style.display = 'block';
+            btn_seguinte.style.display = 'none';
+        }
+    }
+
+    function cadastrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_cadastro));
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            body: formulario
+        }).then(function(response) {
+
+            if (response.ok) {
+
+                window.location.href = 'login.html';
+
+            } else {
+
+                console.log('Erro de cadastro!');
+                response.text().then(function(resposta) {});
+                finalizar_aguardar();
+            }
+        });
+
+        return false;
+    }
+
+    function aguardar() {
+        btn_entrar.disabled = true;
+    }
+
+    function finalizar_aguardar() {
+        btn_entrar.disabled = false;
+    }
+
+    function checkRequired() {
+        if (nome.value == '' || email.value == '' || password.value == '') {
+            changePageForm(1);
+        } else if (cep.value == '' || rua.value == '' || cidade.value == '' || uf.value == '') {
+            changePageForm(2);
+        }
+    }
+</script>

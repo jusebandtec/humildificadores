@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Login</title>
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="funcoes.js"></script>
+    <script src="//code.jivosite.com/widget/p2JCwJhfbs" async></script>
+</head>
+
+<body>
+
+    <div id="header">
+        <div class="container">
+            <div class="alinhar">
+                <div class="title-header">
+                    <span class="highlight"><a href="index.html"><h1>Humildificadores</h1></a></span>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="cadastro.html">Cadastre-se</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="login">
+            <div class="boxLogin">
+                <h1 id="h1Login">LOGIN</h1>
+
+                <form id="form_login" method="post" onsubmit="return entrar()">
+                    <input type="email" id="usuario" placeholder="E-mail " name="login" required>
+                    <input type="password" id="senha" placeholder="Senha " name="senha" required>
+                    <div id="div_erro"><br></div>
+                    <button id="btn_entrar">Entrar</button>
+                    <p id="esqueciSenha"><a href="cadastro.html ">Não tem conta? Cadastre-se</a></p>
+                </form>
+
+            </div>
+        </div>
+    </main>
+    <div id="login_aguarde" align="center">
+        <img src="images/aguarde.gif" id="img_aguarde" style="display: none; height: 100px;">
+    </div>
+
+    <div class="footer">
+        <div class="alinharCentro">
+            <h1><a href="calculadora.html">Seja um patrocinador!</a></h1>
+            <h1>&COPY; 2020 Humildificadores. Todos os Direitos Reservados.</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    function entrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_login));
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            body: formulario
+        }).then(resposta => {
+
+            if (resposta.ok) {
+
+                resposta.json().then(json => {
+
+                    sessionStorage.login_usuario_meuapp = json.email;
+                    sessionStorage.nome_usuario_meuapp = json.nome;
+                    sessionStorage.Id_usuario_meuapp = json.idCliente;
+
+                    window.location.href = 'dashboard.html';
+                });
+
+            } else {
+
+                console.log('Erro de login!');
+                login_aguarde.style.display = 'none';
+                div_erro.style.display = 'block';
+                div_erro.innerHTML = 'E-mail e/ou senha incorretos';
+
+                response.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+        });
+
+        return false;
+    }
+
+    function aguardar() {
+        img_aguarde.style.display = 'block';
+        div_erro.style.display = 'none';
+        login_aguarde.style.display = 'flex';
+    }
+
+    // function finalizar_aguardar(resposta) {
+    //     btn_entrar.disabled = false;
+    //     img_aguarde.style.display = 'none';
+    //     div_erro.style.display = 'block';
+    //     div_erro.innerHTML = resposta;
+    //     login_aguarde.style.display = 'none';
+    // }
+</script>

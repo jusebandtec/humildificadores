@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Registrar Parque</title>
+    <link rel="stylesheet" href="stylesheets/create.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="funcoes.js"></script>
+    <script src="https://kit.fontawesome.com/937e6470ee.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <nav class="main-menu">
+        <ul>
+
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home fa-2x"></i>
+                    <span class="nav-text">
+                        Home - Inicio
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="create-parque.html">
+                    <i class="fab fa-pagelines fa-2x"></i>
+                    <span class="nav-text">
+                        Inserir Parque
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="create-evento.html">
+                    <i class="fas fa-calendar-plus fa-2x"></i>
+                    <span class="nav-text">
+                        Inserir Evento
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="select-parque.html">
+                    <i class="fas fa-tree fa-2x"></i>
+                    <span class="nav-text">
+                        Select parque
+                    </span>
+                </a>
+
+            </li>
+            <li>
+                <a href="select-cliente.html">
+                    <i class="fas fa-user-friends fa-2x"></i>
+                    <span class="nav-text">
+                        Select Cliente
+                    </span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="select-eventos.html">
+                    <i class="fas fa-calendar-day fa-2x"></i>
+                    <span class="nav-text">
+                        Select Evento
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="biling.html">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span class="nav-text">
+                        Billing
+                    </span>
+                </a>
+
+            </li>
+
+        </ul>
+
+        <ul class="logout">
+            <li>
+                <a href="">
+                    <i class="fas fa-user-alt fa-2x"></i>
+                    <span class="nav-text" id="b_usuario">
+
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="logoffAdmin()">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="header-create">
+        <div class="title">
+            <br>
+            <h1>Registrar Parques</h1>
+        </div>
+    </div>
+    <div class="create">
+        <div class="container">
+
+            <div class="content-create">
+                <div class="part-create">
+                    <form action="" id="form_cadastro" method="post" onsubmit="return cadastrar()"><br> Endereço para converter as imagens: <a href="https://imgur.com/upload">Imgur</a> <br><br> Nome do Parque: <input type="text" name="inputNome" id="inputNome" required placeholder="Insira aqui"> Telefone: <input type="text" name="inputTelefone"
+                            id="inputTelefone" required placeholder="(11)12345678)"> <br><br>
+
+                        <img src="" id="img" style="height: 200px;"><br> Imagem do Parque: <input type="url" name="inputImgParque" required id="inputImgParque" onchange="img.src = inputImgParque.value" placeholder="Insira o link aqui"><br> Localização:
+                        <input type="text" name="inputLocalizacao" required id="inputLocalizacao" placeholder="Av. Avenida de Avenida">
+                        <center><button id="btn_entrar">Salvar</button></center>
+                        <br> <br>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+</body>
+
+</html>
+<script>
+    verificar_autenticacaoAdmin();
+
+    function cadastrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_cadastro));
+        fetch("/usuarios/registrar-parque", {
+            method: "POST",
+            body: formulario
+        }).then(function(response) {
+
+            if (response.ok) {
+
+                window.location.href = 'dashboard.html';
+
+            } else {
+
+                console.log('Erro de registro!');
+                response.text().then(function(resposta) {});
+                finalizar_aguardar();
+            }
+        });
+
+        return false;
+    }
+</script>

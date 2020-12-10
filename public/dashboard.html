@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Dashboard</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="funcoes.js"></script>
+    <script src="//code.jivosite.com/widget/p2JCwJhfbs" async></script>
+</head>
+
+<body>
+
+
+    <div id="header">
+        <div class="container">
+            <div class="alinhar">
+                <div class="title-header">
+                    <span class="highlight"><a href="index.html">
+                            <h1>Humildificadores</h1>
+                        </a></span>
+                </div>
+                <div class="nav">
+                    <ul id="lista">
+                        <li><a href="index.html">Início</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- corpo da pagina -->
+        <h1 id="title-selection-park">Selecione um parque abaixo</h1>
+        <div class="container-park">
+            <!-- Slide para selecionar os parques -->
+            <div class="container-slide-park">
+
+                <div class="slide-park">
+
+                    <section class="cd-slider">
+                        <ul id="parqueSlide">
+
+                        </ul>
+                        <nav>
+                            <div>
+                                <a class="prev" href="#"></a>
+                            </div>
+                            <div>
+                                <a class="next" href="#"></a>
+                            </div>
+                        </nav>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+
+
+    <div class="footer">
+        <div class="alinharCentro">
+            <h1><a href="calculadora.html">Seja um patrocinador!</a></h1>
+            <h1>&COPY; 2020 Humildificadores. Todos os Direitos Reservados.</h1>
+        </div>
+    </div>
+    <script src="js/carousel.js"></script>
+
+</body>
+
+</html>
+
+</html>
+
+<script>
+    verificar_autenticacao(2);
+    window.onload = adicionarParque;
+
+    function roll_right() {
+        var slide = window.document.getElementsByClassName('slide-park');
+        document.getElementsByClassName('slide-park').trans
+    }
+
+    var dados
+
+    function adicionarParque() {
+
+        fetch('/leituras/parques', {
+                cache: 'no-store'
+            }).then(function(response) {
+                if (response.ok) {
+                    response.json().then(function(resposta) {
+
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        resposta.reverse();
+
+                        dados = resposta;
+                        let contador = 0;
+                        for (let cont = 0; resposta.length / 3 >= cont; cont++) {
+
+                            let htmlPark = "";
+
+                            for (let cont2 = 0; cont2 < 3 && contador < resposta.length; cont2++) {
+                                let estrelas = "";
+                                for (let cont3 = 0; cont3 < 5; cont3++) {
+                                    if (cont3 < dados[contador].estrelas) {
+                                        estrelas += '<img class="stars" src="/images/full-star.png">'
+                                    } else {
+                                        estrelas += '<img class="stars" src="/images/stroke-star.png">'
+                                    }
+                                }
+
+                                htmlPark += `
+                            <div id="park" style="background-image: url('${dados[contador].imgParque}');background-repeat: no-repeat;background-position: center;background-size: 300%;">
+                                <div id="park-display">
+                                    <h3>
+                                        ${dados[contador].nome}<br><br>
+                                    </h3>
+                                    <div id="park-button" onclick="VerParque(${dados[contador].idParque})">
+                                        VER MAIS
+                                    </div> 
+                                    <div id="stars">
+                                        ${estrelas}
+                                    </div>    
+                                </div>
+                            </div>`;
+                                contador++;
+                            }
+                            document.getElementById(`parqueSlide`).innerHTML += `
+                        <li>
+                            <div class="content " id="slidepage">
+                                ${htmlPark}
+                            </div>
+                        </li>`;
+
+                        }
+
+
+
+                        // aqui, após 'registro.' use os nomes 
+                        // dos atributos que vem no JSON 
+                        // que gerou na consulta ao banco de dados alo
+
+
+
+
+
+                        console.log(JSON.stringify(dados));
+
+
+
+                        console.log(dados);
+                        plotarParques()
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function(error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+
+
+
+    }
+
+    function VerParque(idParque) {
+        sessionStorage.idParque = idParque;
+        window.location.href = 'parque.html'
+    }
+</script>

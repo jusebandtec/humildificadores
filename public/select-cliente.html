@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Select Cliente</title>
+    <link rel="stylesheet" href="stylesheets/create.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <script src="funcoes.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/937e6470ee.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="main-menu">
+        <ul>
+
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home fa-2x"></i>
+                    <span class="nav-text">
+                        Home - Inicio
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="create-parque.html">
+                    <i class="fab fa-pagelines fa-2x"></i>
+                    <span class="nav-text">
+                        Inserir Parque
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="create-evento.html">
+                    <i class="fas fa-calendar-plus fa-2x"></i>
+                    <span class="nav-text">
+                        Inserir Evento
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="select-parque.html">
+                    <i class="fas fa-tree fa-2x"></i>
+                    <span class="nav-text">
+                        Select parque
+                    </span>
+                </a>
+
+            </li>
+            <li>
+                <a href="select-cliente.html">
+                    <i class="fas fa-user-friends fa-2x"></i>
+                    <span class="nav-text">
+                        Select Cliente
+                    </span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="select-eventos.html">
+                    <i class="fas fa-calendar-day fa-2x"></i>
+                    <span class="nav-text">
+                        Select Evento
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="biling.html">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span class="nav-text">
+                        Billing
+                    </span>
+                </a>
+
+            </li>
+
+        </ul>
+
+        <ul class="logout">
+            <li>
+                <a href="">
+                    <i class="fas fa-user-alt fa-2x"></i>
+                    <span class="nav-text" id="b_usuario">
+
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="logoffAdmin()">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="header-create">
+        <div class="title">
+            <br>
+            <h1>Clientes</h1>
+        </div>
+    </div>
+    <div class="create">
+        <div class="container">
+            <table id="customers">
+                <tr>
+                    <th>idCliente</th>
+                    <th>Nome</th>
+                    <th>Rua</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Email</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    verificar_autenticacaoAdmin();
+    window.onload = obterDadosDaTabela
+    var dados
+
+    function obterDadosDaTabela() {
+
+        fetch(`/leituras/todosClientes`, {
+                cache: 'no-store'
+            }).then(function(response) {
+                if (response.ok) {
+                    response.json().then(function(resposta) {
+
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        dadosComponente = resposta;
+
+                        resposta.reverse();
+                        var tabela = ""
+                        dados = resposta
+                        for (i = 0; i < resposta.length; i++) {
+                            // aqui, após 'registro.' use os nomes 
+                            // dos atributos que vem no JSON 
+                            // que gerou na consulta ao banco de dados
+                            tabela += `
+                                    <tr>
+                                        <td>${dados[i].idCliente}</td>
+                                        <td>${dados[i].nome}</td>
+                                        <td>${dados[i].rua}</td>
+                                        <td>${dados[i].cidade}</td>
+                                        <td>${dados[i].estado}</td>
+                                        <td>${dados[i].email}</td>
+                                    </tr>`
+                        }
+                        console.log(JSON.stringify(dados));
+                        customers.innerHTML += tabela
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function(error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+    }
+</script>

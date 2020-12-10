@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humildificadores | Registrar Evento</title>
+    <link rel="stylesheet" href="stylesheets/create.css">
+    <link rel="stylesheet" href="stylesheets/reset.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="funcoes.js"></script>
+    <script src="https://kit.fontawesome.com/937e6470ee.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="main-menu">
+        <ul>
+
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home fa-2x"></i>
+                    <span class="nav-text">
+                        Home - Inicio
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="create-parque.html">
+                    <i class="fab fa-pagelines fa-2x"></i>
+                    <span class="nav-text">
+                        Inserir Parque
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="create-evento.html">
+                    <i class="fas fa-calendar-plus fa-2x"></i>
+                    <span class="nav-text">
+                        Inserir Evento
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="select-parque.html">
+                    <i class="fas fa-tree fa-2x"></i>
+                    <span class="nav-text">
+                        Select parque
+                    </span>
+                </a>
+
+            </li>
+            <li>
+                <a href="select-cliente.html">
+                    <i class="fas fa-user-friends fa-2x"></i>
+                    <span class="nav-text">
+                        Select Cliente
+                    </span>
+                </a>
+            </li>
+            <li class="has-subnav">
+                <a href="select-eventos.html">
+                    <i class="fas fa-calendar-day fa-2x"></i>
+                    <span class="nav-text">
+                        Select Evento
+                    </span>
+                </a>
+
+            </li>
+            <li class="has-subnav">
+                <a href="biling.html">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span class="nav-text">
+                        Billing
+                    </span>
+                </a>
+
+            </li>
+
+        </ul>
+
+        <ul class="logout">
+            <li>
+                <a href="">
+                    <i class="fas fa-user-alt fa-2x"></i>
+                    <span class="nav-text" id="b_usuario">
+
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="logoffAdmin()">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="header-create">
+        <div class="title">
+            <br>
+            <h1>Registrar Eventos</h1>
+        </div>
+    </div>
+    </div>
+    <div class="create">
+        <div class="container">
+            <div class="content-create">
+                <div class="part-create">
+                    <form action="" id="form_cadastro" method="post" onsubmit="return cadastrar()">
+                        <br> Endereço para converter as imagens: <a href="https://imgur.com/upload">Imgur</a> <br> <br> Imagem De Evento: <input type="url" required name="inputimg" id="inputimg" placeholder="Insira o link aqui" onchange="img.src = inputimg.value">                        Titulo: <input type="text" required name="inputTituloEvento" id="inputTituloEvento" placeholder="Insira o título aqui"> <br>
+                        <img src="" id="img" style="height: 100px;"><br> Descrição: <br><textarea name="inputDescricao" required id="inputDescricao" cols="104" rows="10" placeholder="(500 caracteres)"></textarea> <br> <br> Data: <input type="text" name="inputDataEventos"
+                            required id="inputDataEventos" placeholder="aaaa-mm-ddThh:mm:ss">
+                        <span id="example-date">Exemplo: (2000-04-16T22:00:00)</span><br> Parque ao qual está relacionando:
+                        <select name="inputfkParque" id="inputfkParque">
+
+                        </select> <br>
+
+                        <center><button id="btn_entrar">Salvar</button></center>
+                        <br> <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="create">
+        <div class="container">
+            <div class="introduction-create">
+                <h1>Registrar Parques</h1>
+            </div>
+            <div class="content-create">
+                <div class="part-create">
+                    <form action=""> <br>
+                        Nome: <input type="text" name="" id="" placeholder="Cláudio Santana">
+                        CPF: <input type="text" name="" id="" placeholder="000.000.000-0"> <br> <br>
+                        Localização: <input type="text" name="" id="" placeholder="Av. Avenida de Avenida">
+                        Area: <input type="text" name="" id="" placeholder="90000"> <span id="example-metros">em m2 (metros quadrados)</span> <br> <br>
+                        Imagem do Parque: <input type="text" name="" id="" placeholder="Insira o link aqui">
+                         Endereço para converter as imagens: <a href="https://imgur.com/upload">Imgur</a> <br> <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</body>
+
+</html>
+<script>
+    verificar_autenticacaoAdmin();
+    window.onload = adicionarEvento
+    var dados
+
+
+
+
+    function adicionarEvento() {
+
+        fetch('/leituras/create', {
+                cache: 'no-store'
+            }).then(function(response) {
+                if (response.ok) {
+                    response.json().then(function(resposta) {
+
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        resposta.reverse();
+
+                        dados = resposta;
+                        // aqui, após 'registro.' use os nomes 
+                        // dos atributos que vem no JSON 
+                        // que gerou na consulta ao banco de dados
+                        console.log(JSON.stringify(dados));
+                        console.log(dados);
+                        let contador = 0;
+                        let adicionarparque;
+                        for (let cont = 0; resposta.length >= cont; cont++) {
+                            adicionarparque += `<option value="${dados[contador].idParque}">${dados[contador].nome}</option>`;
+                            contador++
+                            document.getElementById('inputfkParque').innerHTML = adicionarparque;
+                        }
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function(error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function cadastrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_cadastro));
+        fetch("/usuarios/registrar-evento", {
+            method: "POST",
+            body: formulario
+        }).then(function(response) {
+
+            if (response.ok) {
+
+                window.location.href = 'eventos.html';
+
+            } else {
+
+                console.log('Erro de registro!');
+                response.text().then(function(resposta) {});
+                finalizar_aguardar();
+            }
+        });
+
+        return false;
+    }
+</script>
