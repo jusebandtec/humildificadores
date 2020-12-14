@@ -14,118 +14,80 @@ function alterar(botao) {
     }
 }
 
-function aleatorio() {
-    var dados = parseInt(Math.random() * 101);
-    if (dados < 20) {
-        dados = 30;
-    };
-    return dados;
-};
+var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var VALORES = [60, 68, 85, 45, 57, 95, 60, 90, 50, 80];
-var miniBarMonths = [MONTHS[8], MONTHS[9], MONTHS[10]];
-var jurosMonths = [MONTHS[9], MONTHS[10], MONTHS[11]]
+var monthsTime = [];
+var valores = [];
+
+
+var jurosMonths = [];
 
 var jurosBarChartData = {
     labels: jurosMonths,
     datasets: [{
         label: 'Simulação de juros',
-        backgroundColor: [
-            'lightblue',
-            'lightblue',
-            'blue'
-        ],
+        backgroundColor: 'lightblue',
         borderColor: 'transparent',
         hoverBorderColor: 'black',
         borderWidth: 3,
-        data: [
-            VALORES[8],
-            VALORES[9],
-            VALORES[10]
-        ]
+        data: valores
     }]
 };
+
+var miniBarMonths = [];
 
 var forecastBarChartData = {
     labels: miniBarMonths,
     datasets: [{
         label: 'Forecast',
-        backgroundColor: [
-            'lightgreen',
-            'lightgreen',
-            'green'
-        ],
+        backgroundColor: 'lightgreen',
         borderColor: 'transparent',
         hoverBorderColor: 'black',
         borderWidth: 3,
-        data: [
-            VALORES[9],
-            VALORES[10],
-            VALORES[11]
-        ]
+        data: []
     }]
 };
 
+let dadosDoughnut = [];
+
 var config = {
-    type: 'doughnut',
-    data: {
-        datasets: [{
-            data: [
-                62,
-                21,
-                17
-            ],
-            backgroundColor: [
-                'red',
-                'lightgreen',
-                'aqua'
-            ]
-        }],
-        labels: [
-            'EBS' ,
-            'S3',
-            'EC2',
+    datasets: [{
+        data: dadosDoughnut,
+        backgroundColor: [
+            'red',
+            'lightgreen',
+            'aqua'
         ]
-    },
-    options: {
-        responsive: true,
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-            text: 'Custo de Serviços de Cloud'
-        },
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-    }
+    }],
+    labels: [
+        'EBS',
+        'S3',
+        'EC2',
+    ]
 };
 
 var barChartData = {
-    labels: MONTHS,
+    labels: [],
     datasets: [{
-        label: 'Linha Temporal',
+        label: 'Mês',
         backgroundColor: [
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'red', 
-            'lightgreen', 
-            'lightgreen' 
+            'red',
+            'red',
+            'red',
+            'red',
+            'red',
+            'red',
+            'red',
+            'red',
+            'red',
+            'red',
+            'lightgreen',
+            'lightgreen',
         ],
         borderColor: 'transparent',
         hoverBorderColor: 'black',
         borderWidth: 3,
-        data: VALORES
+        data: valores
     }]
 };
 
@@ -136,16 +98,28 @@ function plotarGraficos() {
         type: 'bar',
         data: barChartData,
         options: {
+            legend: {
+                label: 'Testando valores',
+                display: true,
+                labels: {
+                    yLabel: 'Valores',
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            },
             responsive: true,
             legend: {
                 position: 'top',
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Time series'
             },
             scales: {
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Crédito utilizado'
+                    },
                     ticks: {
                         beginAtZero: true
                     }
@@ -163,11 +137,15 @@ function plotarGraficos() {
                 position: 'top',
             },
             title: {
-                display: true,
+                display: false,
                 text: 'mini'
             },
             scales: {
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Valor a ser pago',
+                    },
                     ticks: {
                         beginAtZero: true
                     }
@@ -185,11 +163,15 @@ function plotarGraficos() {
                 position: 'top',
             },
             title: {
-                display: true,
+                display: false,
                 text: 'mini'
             },
             scales: {
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Previsão de custo',
+                    },
                     ticks: {
                         beginAtZero: true
                     }
@@ -198,5 +180,22 @@ function plotarGraficos() {
         }
     });
     var doug = document.getElementById('services').getContext('2d');
-    window.myDoughnut = new Chart(doug, config);
+    window.myDoughnut = new Chart(doug, {
+        type: 'doughnut',
+        data: config,
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: ''
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    });
 };

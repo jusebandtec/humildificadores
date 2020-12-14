@@ -1,2 +1,0 @@
-# humildificadores
-Solução Humildificadores

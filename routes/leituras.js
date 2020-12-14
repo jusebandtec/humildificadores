@@ -196,12 +196,27 @@ router.get('/todosEventos', function(req, res, next) {
         });
 
 });
+
+router.get('/custo', function(req, res, next) {
+    const instrucaoSql = `SELECT MIN(valorMes) as credito, FORMAT(dataRegistro ,'yyyy/MM') as mesAno 
+                            FROM biling 
+                            group by FORMAT(dataRegistro ,'yyyy/MM')
+                            ORDER BY FORMAT(dataRegistro ,'yyyy/MM') DESC;`;
+
+    sequelize.query(instrucaoSql, { type: sequelize.QueryTypes.SELECT })
+        .then(resultado => {
+            res.json(resultado);
+        }).catch(erro => {
+            console.error(erro);
+            res.status(500).send(erro.message);
+        });
+});
  
 router.get('/create', function(req, res, next) {
 
     console.log(`Recuperando a última leitura`);
 
-    const instrucaoSql = `select * from parque order by idParque desc`;
+    const instrucaoSql = `select idParque, nome from parque order by idParque desc`;
 
     sequelize.query(instrucaoSql, { type: sequelize.QueryTypes.SELECT })
         .then(resultado => {
